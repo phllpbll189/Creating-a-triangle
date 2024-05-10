@@ -19,11 +19,37 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "{\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
+
+#define VERTICAL 1
+#define HORIZONTAL 0
+
 float vertices[] = {
--0.5f, -0.5f, 0.0f,
- 0.5f, -0.5f, 0.0f,
- 0.0f,  0.5f, 0.0f
+	-0.5f, -0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f
 };
+
+void updateTriangle(int axis, float direction) {
+	cout << axis << " " << direction << endl;
+	for (int i = axis; i < 9; i = i + 3) {
+		cout << i << endl;
+		vertices[i] = vertices[i] + direction;
+	}
+}
+
+void update(float vertices[], GLFWwindow* window) {
+	
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		updateTriangle(VERTICAL, .05f);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		updateTriangle(HORIZONTAL, -.05f);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		updateTriangle(VERTICAL, -.05f);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		updateTriangle(HORIZONTAL, .05f);
+}
 
 int main() {
 
@@ -108,7 +134,9 @@ int main() {
 
 	//render loop
 	while (!glfwWindowShouldClose(window)) {
-		processInput(window);
+		update(vertices, window);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
