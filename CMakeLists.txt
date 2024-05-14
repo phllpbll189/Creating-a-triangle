@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)  # for c++17
 
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-add_executable(MyFirstTriangle ${SOURCE_FILES})
+add_executable(MyFirstTriangle ${SOURCE_FILES} "src/glad.c")
 include_directories(include)
 
 add_subdirectory(glfw-3.4)
