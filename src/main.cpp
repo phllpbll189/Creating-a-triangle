@@ -35,25 +35,6 @@ unsigned int indices[] = {
 	1, 2, 3
 };
 
-void updateTriangle(int axis, float direction) {
-	for (int i = axis; i < 9; i = i + 3) {
-		vertices[i] = vertices[i] + direction;
-	}
-}
-
-void update(float vertices[], GLFWwindow* window) {
-	
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		updateTriangle(VERTICAL, .05f);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		updateTriangle(HORIZONTAL, -.05f);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		updateTriangle(VERTICAL, -.05f);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		updateTriangle(HORIZONTAL, .05f);
-}
 
 int main() {
 
