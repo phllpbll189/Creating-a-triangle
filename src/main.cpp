@@ -78,7 +78,7 @@ int main() {
 		float timeValue = glfwGetTime();
 		float greenVal = (sin(timeValue) / 2.0f) + 0.5f;
 		float outputColor[4] = {0.2f, greenVal, 0.2f, 1.0f};
-		char* uniformName = "inputColor";
+		char* uniformName = (char*)"inputColor";
 
 		shader.setUniformDataf4(uniformName, outputColor);
 
