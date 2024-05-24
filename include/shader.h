@@ -14,38 +14,8 @@ class Shader {
     public:
         unsigned int ID;
 
-        Shader(const char* vertexPath, const char* fragmentPath)
+        Shader(const char* vShaderCode, const char* fShaderCode)
         {
-            string vertexCode;
-            string fragmentCode;
-            ifstream vShaderFile;
-            ifstream fShaderFile;
-
-            vShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
-            fShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
-            try 
-            {
-                vShaderFile.open(vertexPath);
-                fShaderFile.open(fragmentPath);
-                stringstream vShaderStream, fShaderStream;
-
-                vShaderStream << vShaderFile.rdbuf();
-                fShaderStream << fShaderFile.rdbuf();
-
-                vShaderFile.close();
-                fShaderFile.close();
-
-                vertexCode = vShaderStream.str();
-                fragmentCode = fShaderStream.str();
-            } 
-            catch (std::ifstream::failure &e)
-            {
-                cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << e.what() << endl;
-            }
-
-            const char* vShaderCode = vertexCode.c_str();
-            const char* fShaderCode = fragmentCode.c_str();
-
             unsigned int vertex, fragment;
 
             vertex = glCreateShader(GL_VERTEX_SHADER);
