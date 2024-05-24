@@ -44,21 +44,21 @@ class Shader {
             }
 
             const char* vShaderCode = vertexCode.c_str();
-            const char* fShaderCode = vertexCode.c_str();
+            const char* fShaderCode = fragmentCode.c_str();
 
             unsigned int vertex, fragment;
 
-            vertex =   glCreateShader(GL_VERTEX_SHADER);
-            fragment = glCreateShader(GL_FRAGMENT_SHADER); 
-
+            vertex = glCreateShader(GL_VERTEX_SHADER);
             glShaderSource(vertex, 1, &vShaderCode, NULL);
-            glShaderSource(fragment, 1, &fShaderCode, NULL);
-            
-            glCompileShader(fragment);
             glCompileShader(vertex);
-
-            checkCompileErrors(fragment, "FRAGMENT");
             checkCompileErrors(vertex, "VERTEX");
+
+
+            fragment = glCreateShader(GL_FRAGMENT_SHADER); 
+            glShaderSource(fragment, 1, &fShaderCode, NULL);
+            glCompileShader(fragment);
+            checkCompileErrors(fragment, "FRAGMENT");
+
             
             ID = glCreateProgram();
             glAttachShader(ID, vertex);

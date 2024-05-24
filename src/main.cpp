@@ -1,6 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <shader.h>
 
 using namespace std;
 
@@ -81,8 +82,10 @@ int main() {
 	//set size of viewport and declare vars
 	glViewport(0, 0, 800, 600);
 
+	Shader shader("/home/phillip/Documents/MyFirstTriangle/include/shader.vs", "/home/phillip/Documents/MyFirstTriangle/include/shader.fs");
+
 	// =======VERTEX SHADER COMPILATION
-	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER); 
+	/*unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER); 
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
@@ -114,7 +117,7 @@ int main() {
 		cout << "ERROR::PROGRAM::SHADER::LINKING_FAILED\n" << infoLog << endl;
 	} 
 	glUseProgram(shaderProgram);
-
+*/
 	//BUFFERS
 	unsigned int VAO, VBO, EBO;
 	glGenBuffers(1, &VBO);
@@ -143,7 +146,7 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
+		shader.use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -154,7 +157,6 @@ int main() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	glDeleteProgram(shaderProgram);
 
 
 
