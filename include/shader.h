@@ -92,6 +92,12 @@ class Shader {
             glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
         };
 
+        void setUniformDataf4(char* name, float* data) const
+        {
+            int vertexColorLocation = glGetUniformLocation(ID, name);
+            glUniform4f(vertexColorLocation, data[0], data[1], data[2], data[3]);
+        };
+
         private:
             void checkCompileErrors(unsigned int shader, string type)
             {

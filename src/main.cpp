@@ -2,27 +2,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <shader.h>
+#include <cmath>
+
+#define VERTICAL 1
+#define HORIZONTAL 0
 
 using namespace std;
 
 void processInput(GLFWwindow* window);
-
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
-
-#define VERTICAL 1
-#define HORIZONTAL 0
 
 float vertices[] = {
      0.5f,  0.5f, 0.0f,  // top right
@@ -35,16 +22,14 @@ unsigned int indices[] = {
 	1, 2, 3
 };
 
-
 int main() {
 
-	//glfw: init and configure (tool that helps make windows)
+	//glfw: init and configure 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	//create window with GLFW
 	GLFWwindow* window = glfwCreateWindow(800, 600, "learnOpenGl", NULL, NULL);
 	if (window == NULL) {
 		cout << "failed to create glfw window" << endl;
@@ -52,53 +37,16 @@ int main() {
 		return -1;
 	}
 
-	//set current window and load glad
-	//GLAD abstracts away configuring opengl for your current system and version
 	glfwMakeContextCurrent(window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		cout << "Failed to initialize GLAD" << endl;
 		return -1;
 	}
 
-	//set size of viewport and declare vars
 	glViewport(0, 0, 800, 600);
 
 	Shader shader("/home/phillip/Documents/MyFirstTriangle/include/shader.vs", "/home/phillip/Documents/MyFirstTriangle/include/shader.fs");
 
-	// =======VERTEX SHADER COMPILATION
-	/*unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER); 
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-
-
-	// =======FRAGMENT SHADER COMPILATION
-	unsigned int fragShader;
-	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragShader);
-
-
-	//===========CREATE SHADER PROGRAM
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragShader);
-	glLinkProgram(shaderProgram);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragShader);
-	
-	int success;
-	char infoLog[512];
-
-	//MAKE SURE IT WORKS
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		cout << "ERROR::PROGRAM::SHADER::LINKING_FAILED\n" << infoLog << endl;
-	} 
-	glUseProgram(shaderProgram);
-*/
 	//BUFFERS
 	unsigned int VAO, VBO, EBO;
 	glGenBuffers(1, &VBO);
@@ -122,12 +70,18 @@ int main() {
 
 	//render loop
 	while (!glfwWindowShouldClose(window)) {
-		//update(vertices, window);
-
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.use();
+
+		float timeValue = glfwGetTime();
+		float greenVal = (sin(timeValue) / 2.0f) + 0.5f;
+		float outputColor[4] = {0.2f, greenVal, 0.2f, 1.0f};
+		char* uniformName = "inputColor";
+
+		shader.setUniformDataf4(uniformName, outputColor);
+
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
