@@ -17,14 +17,12 @@ using namespace std;
 void processInput(GLFWwindow* window);
 
 float vertices[] = {
-     0.5f,  0.5f, 0.0f,  // top right
+     0.0f,  0.5f, 0.0f,  // top right
      0.5f, -0.5f, 0.0f,  // bottom right
-    -0.5f, -0.5f, 0.0f,  // bottom left
-    -0.5f,  0.5f, 0.0f   // top left 
+    -0.5f,  -0.5f, 0.0f   // top left 
 };
 unsigned int indices[] = {
-	0, 1, 3,
-	1, 2, 3
+	0, 1, 2,
 };
 
 int main() {
@@ -80,13 +78,6 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.use();
-
-		float timeValue = glfwGetTime();
-		float greenVal = (sin(timeValue) / 2.0f) + 0.5f;
-		float outputColor[4] = {0.2f, greenVal, 0.2f, 1.0f};
-		char* uniformName = (char*)"inputColor";
-
-		shader.setUniformDataf4(uniformName, outputColor);
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
