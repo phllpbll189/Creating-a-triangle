@@ -4,12 +4,17 @@ const char* vert_shader_src = R"(
 
 #version 330 core
 layout (location = 0) in vec3 aPos;
-out vec3 position;
+layout (location = 1) in vec3 aColor;
+layout (location = 2) in vec2 aTexCoord;
+
+out vec3 ourColor;
+out vec2 texCoord;
 
 void main()
 {
-   position = aPos;
    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+   ourColor = aColor;
+   texCoord = aTexCoord;
 }
 
 
