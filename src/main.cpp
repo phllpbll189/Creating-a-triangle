@@ -1,8 +1,13 @@
+#define FRAG_SHADER_INCLUDE
+#define VERT_SHADER_INCLUDE
+
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <shader.h>
 #include <cmath>
+#include <shader.fs>
+#include <shader.vs>
 
 #define VERTICAL 1
 #define HORIZONTAL 0
@@ -45,7 +50,8 @@ int main() {
 
 	glViewport(0, 0, 800, 600);
 
-	Shader shader("/home/phillip/Documents/MyFirstTriangle/include/shader.vs", "/home/phillip/Documents/MyFirstTriangle/include/shader.fs");
+	cout << vert_shader_src << endl;
+	Shader shader(vert_shader_src, frag_shader_src);
 
 	//BUFFERS
 	unsigned int VAO, VBO, EBO;
