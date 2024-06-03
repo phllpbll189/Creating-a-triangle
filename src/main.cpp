@@ -17,6 +17,7 @@
 using namespace std;
 
 void processInput(GLFWwindow* window);
+void processMixture(GLFWwindow* window, float* mix);
 
 float vertices[] = {
 	//postion				//colors	     	//texture coord
@@ -29,6 +30,7 @@ unsigned int indices[] = {
 	0, 1, 3,
 	1, 2, 3
 };
+float mix = 0.0f;
 
 int main() {
 
@@ -141,11 +143,15 @@ int main() {
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
+		processMixture(window, &mix);
 		shader.use();
+		shader.setFloat("mixPercent", mix);
+		
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+		
+		processInput(window);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -165,4 +171,11 @@ int main() {
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+}
+
+void processMixture(GLFWwindow* window, float* mix){
+	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		*mix = *mix + 0.1f;
+	if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		*mix = *mix - 0.1f;
 }
